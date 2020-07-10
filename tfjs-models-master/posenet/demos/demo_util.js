@@ -98,10 +98,35 @@ export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
  * Draws a pose skeleton by looking up all adjacent keypoints/joints
  */
 export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+
+var l;
+var max;
+var min;
+var newx;
+max=0
+min=10000;
+for (l = 0; l < keypoints.length; l++) {
+	newx=keypoints[l].position.x
+	if (max<=newx){
+		max=newx;}
+	if (min>=newx){
+		min=newx;}
+}
+//console.log(max)
+//console.log(min)
+//console.log('khatam')
+
+
+
   const adjacentKeyPoints =
       posenet.getAdjacentKeyPoints(keypoints, minConfidence);
       if (adjacentKeyPoints.length==0){ctx.font = "20px Arial";
 						ctx.fillText("please take a step back so that we can see your entire pose",10,50);}
+	  else{ctx.font = "20px Arial";
+ctx.fillText("height of pose in pixels:",10,50);
+ctx.fillText(max-min,250,50);}
+  
+
 
   adjacentKeyPoints.forEach((keypoints) => {
     drawSegment(
